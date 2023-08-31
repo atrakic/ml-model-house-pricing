@@ -1,0 +1,31 @@
+version: '3'
+services:
+  web:
+    build:
+      context: frontend
+    container_name: web
+    environment:
+      - PORT=5000
+      - FLASK_ENV=development
+      - MODEL_FILE=/app/model.pkl
+    ports:
+      - 5000:5000
+    volumes:
+      - ./ml-model/model.pkl:/app/model.pkl
+    depends_on:
+      - model
+  model:
+    build:
+      context: ml-model
+    container_name: model
+    volumes:
+      - ./data/prices.csv:/data/prices.csv
+    environment:
+      - CSV_FILE=/data/prices.csv
+  test-client:
+    build:
+      context: test-client
+    environment:
+      - API_URL=http://web:5000/api
+    depends_on:
+      - web

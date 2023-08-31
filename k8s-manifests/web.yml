@@ -1,0 +1,55 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  ports:
+    - port: 8080
+      targetPort: 80
+      name: web
+  selector:
+    app: web
+  type: ClusterIP   # LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/atrakic/ml-house-pricing-web:latest
+          imagePullPolicy: IfNotPresent   # Always
+          ports:
+            - containerPort: 80
+              name: web
+          env:
+            - name: MODEL_FILE
+              value: "/opt/model.pkl"
+      initContainers:
+        - name: init-model
+          image: ghcr.io/atrakic/ml-house-pricing-model:latest
+          restartPolicy: Always
+          # command: ['sh', '-c', 'tail -F /opt/logs.txt']
+          volumeMounts:
+            - name: data
+              mountPath: /opt
+          env:
+            - name: CSV_FILE
+              value: "https://raw.githubusercontent.com/atrakic/ml-model-house-pricing/data/prices.csv"
+      volumes:
+        - name: data
+          emptyDir: {}
