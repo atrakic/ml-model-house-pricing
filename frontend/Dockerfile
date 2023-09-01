@@ -16,7 +16,7 @@ COPY ./src .
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-ARG PORT=5000
+ARG PORT=8080
 ENV PORT $PORT
 EXPOSE $PORT
 

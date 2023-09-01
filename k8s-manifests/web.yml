@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: ml-house-pricing-web
   labels:
     app: web
 spec:
   ports:
-    - port: 8080
-      targetPort: 80
+    - port: 80
+      targetPort: 8080
       name: web
   selector:
     app: web
@@ -32,24 +32,32 @@ spec:
       containers:
         - name: web
           image: ghcr.io/atrakic/ml-house-pricing-web:latest
-          imagePullPolicy: IfNotPresent   # Always
+          imagePullPolicy: Always # IfNotPresent
           ports:
-            - containerPort: 80
+            - containerPort: 8080
               name: web
           env:
+            - name: PORT
+              value: "8080"
             - name: MODEL_FILE
               value: "/opt/model.pkl"
+          volumeMounts:
+            - name: data
+              mountPath: /opt
       initContainers:
-        - name: init-model
+        # First we need to create model and serialise data on file
+        - name: init
           image: ghcr.io/atrakic/ml-house-pricing-model:latest
-          restartPolicy: Always
+          imagePullPolicy: Always # IfNotPresent
           # command: ['sh', '-c', 'tail -F /opt/logs.txt']
           volumeMounts:
             - name: data
               mountPath: /opt
           env:
+            - name: MODEL_FILE
+              value: /opt/model.pkl
             - name: CSV_FILE
-              value: "https://raw.githubusercontent.com/atrakic/ml-model-house-pricing/data/prices.csv"
+              value: "https://raw.githubusercontent.com/atrakic/ml-model-house-pricing/main/data/prices.csv"
       volumes:
         - name: data
           emptyDir: {}

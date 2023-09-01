@@ -27,3 +27,4 @@ print(f"Model intercept : {lm.intercept_}")
 print(f"Model predict : {lm.predict([[15, 61]])}")  # format of input
 
 pickle.dump(lm, open(model_file, "wb"))  # serialize and save the model to the file
+print("Created model file : ", model_file)
