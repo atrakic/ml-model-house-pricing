@@ -44,6 +44,22 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /opt
+          #livenessProbe:
+          #  exec:
+          #    command:
+          #    - ls
+          #    - $MODEL_FILE
+          #  initialDelaySeconds: 5
+          #  periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              httpHeaders:
+                - name: X-Custom-Header
+                  value: Probe
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
       initContainers:
         # First we need to create model and serialise data on file
         - name: init
