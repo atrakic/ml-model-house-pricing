@@ -5,7 +5,9 @@ import numpy as np
 from flask import Flask, jsonify, render_template, request
 
 model_file = os.getenv("MODEL_FILE")
-model = pickle.load(open(model_file, "rb"))
+
+with open(model_file, "rb") as f:
+    model = pickle.load(f)
 
 app = Flask(__name__)
 
@@ -17,12 +19,12 @@ def index():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    # rooms = int(request.form["rooms"])
-    # distance = int(request.form["distance"])
-    int_inputs = [int(x) for x in request.form.values()]
-    arr = [np.array(int_inputs)]
-    prediction = model.predict(arr)
-    # prediction = model.predict([[rooms, distance]])
+    rooms = int(request.form["rooms"])
+    distance = int(request.form["distance"])
+    prediction = model.predict([[rooms, distance]])
+    # int_inputs = [int(x) for x in request.form.values()]
+    # arr = [np.array(int_inputs)]
+    # prediction = model.predict(arr)
     output = round(prediction[0], 2)
     return render_template(
         "index.html",

@@ -7,6 +7,7 @@ on:
     paths:
       - 'ml-model/**'
       - 'frontend/**'
+      - 'test-client/**'
 jobs:
   build:
     runs-on: ubuntu-latest
