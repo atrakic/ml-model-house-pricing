@@ -11,12 +11,12 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ./ml-model/model.pkl:/app/model.pkl
+      - ./model/model.pkl:/app/model.pkl
     depends_on:
       - model
   model:
     build:
-      context: ml-model
+      context: model
     container_name: model
     volumes:
       - ./data/prices.csv:/data/prices.csv

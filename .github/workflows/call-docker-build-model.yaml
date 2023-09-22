@@ -8,20 +8,24 @@ on:
       - 'main'
     # only build when important files change
     paths:
-      - 'ml-model/**'
+      - 'model/**'
       - '.github/workflows/call-docker-build-model.yaml'
   pull_request:
     branches:
       - 'main'
     # only build when important files change
     paths:
-      - 'ml-model/**'
+      - 'model/**'
       - '.github/workflows/call-docker-build-model.yaml'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   call-docker-build:
 
-    name: ML Model Call Docker Build
+    name: Docker Build
 
     uses: dockersamples/.github/.github/workflows/reusable-docker-build.yaml@main
 
@@ -51,7 +55,7 @@ jobs:
       ### A list of the account/repo names for docker build. List should match what's enabled above
       ### defaults to:
       image-names: |
-        ghcr.io/atrakic/ml-house-pricing-model
+        ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       ### REQUIRED set rules for tagging images, based on special action syntax:
       ### https://github.com/docker/metadata-action#tags-input
@@ -62,7 +66,7 @@ jobs:
 
       ### path to where docker should copy files into image
       ### defaults to root of repository (.)
-      context: ml-model
+      context: model
 
       ### Dockerfile alternate name. Default is Dockerfile (relative to context path)
       # file: Containerfile

@@ -5,7 +5,7 @@ on:
   pull_request:
   push:
     paths:
-      - 'ml-model/**'
+      - 'model/**'
       - 'frontend/**'
       - 'test-client/**'
 jobs:
@@ -24,7 +24,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pylint
-        pip install -r ./ml-model/requirements.txt
+        pip install -r ./model/requirements.txt
         pip install -r ./frontend/requirements.txt
     - name: Analysing the code with pylint
       run: |

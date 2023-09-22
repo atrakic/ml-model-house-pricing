@@ -15,7 +15,7 @@ $ docker run -it --rm -e CSV_FILE=/data/prices.csv -v $(PWD)/data/prices.csv:/da
 
 - Web
 ```
-$ docker run -it --rm -e MODEL_FILE=/app/model.pkl -v $(PWD)/ml-model/model.pkl:/app/model.pkl -p 8080:8080 ghcr.io/atrakic/ml-house-pricing-web:latest
+$ docker run -it --rm -e MODEL_FILE=/app/model.pkl -v $(PWD)/model/model.pkl:/app/model.pkl -p 8080:8080 ghcr.io/atrakic/ml-house-pricing-web:latest
 
 ```
 
