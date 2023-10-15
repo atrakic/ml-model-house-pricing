@@ -32,7 +32,7 @@ spec:
       containers:
         - name: web
           image: ghcr.io/atrakic/ml-house-pricing-web:latest
-          imagePullPolicy: Always # IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
               name: web
@@ -66,14 +66,13 @@ spec:
           image: ghcr.io/atrakic/ml-house-pricing-model:latest
           imagePullPolicy: Always # IfNotPresent
           # command: ['sh', '-c', 'tail -F /opt/logs.txt']
+          args: ["https://raw.githubusercontent.com/atrakic/ml-model-house-pricing/main/data/prices.csv"]
           volumeMounts:
             - name: data
               mountPath: /opt
           env:
             - name: MODEL_FILE
               value: /opt/model.pkl
-            - name: CSV_FILE
-              value: "https://raw.githubusercontent.com/atrakic/ml-model-house-pricing/main/data/prices.csv"
       volumes:
         - name: data
           emptyDir: {}

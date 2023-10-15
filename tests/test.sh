@@ -6,4 +6,4 @@ curl -d '{"rooms":2, "distance":20}' -H "Content-Type: application/json" \
 
 kubectl run -it --rm --image=curlimages/curl --restart=Never curl-test -- \
   -d '{"rooms":2, "distance":20}' -H "Content-Type: application/json" \
-  -X POST http://$(k get svc ml-house-pricing-web --output=jsonpath='{.spec.clusterIPs[0]}'):80/api
+  -X POST http://$(kubectl get svc ml-house-pricing-web --output=jsonpath='{.spec.clusterIPs[0]}'):80/api

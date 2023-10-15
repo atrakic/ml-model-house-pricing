@@ -1,7 +1,8 @@
 [MASTER]
 disable=
+    C0103, # doesn't conform to snake_case naming style
     C0301, # Line too long
     C0114, # missing-module-docstring
     C0116,
-    C0115,
+    C0115, # class has no docstring
     E0401, # Unable to import

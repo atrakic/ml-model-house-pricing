@@ -1,4 +1,3 @@
-#FROM python:3.11-slim-buster as build-venv
 FROM debian:11-slim AS build
 RUN apt-get update && \
     apt-get install --no-install-suggests --no-install-recommends --yes python3-venv gcc libpython3-dev && \
@@ -10,12 +9,11 @@ COPY requirements.txt /requirements.txt
 RUN /venv/bin/pip install --disable-pip-version-check -r /requirements.txt
 
 
-# Copy the virtualenv into a distroless image
 FROM gcr.io/distroless/python3-debian11 as final
 LABEL org.opencontainers.image.description="Machine Learning model to predict house prices"
 COPY --from=build-venv /venv /venv
-COPY . /app
 WORKDIR /app
+COPY . .
 
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
