@@ -11,6 +11,7 @@ RUN /venv/bin/pip install --disable-pip-version-check -r /requirements.txt
 
 FROM gcr.io/distroless/python3-debian11 as final
 LABEL org.opencontainers.image.description="Machine Learning model to predict house prices"
+LABEL maintainer="Admir Trakic <atrakic@users.noreply.github.com>"
 COPY --from=build-venv /venv /venv
 WORKDIR /app
 COPY . .

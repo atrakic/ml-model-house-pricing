@@ -8,14 +8,14 @@ on:
       - 'main'
     # only build when important files change
     paths:
-      - 'model/**'
+      - 'src/model/**'
       - '.github/workflows/call-docker-build-model.yaml'
   pull_request:
     branches:
       - 'main'
     # only build when important files change
     paths:
-      - 'model/**'
+      - 'src/model/**'
       - '.github/workflows/call-docker-build-model.yaml'
 
 env:

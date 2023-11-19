@@ -1,28 +1,25 @@
 name: Build Web
-# template source: https://github.com/dockersamples/.github/blob/main/templates/call-docker-build.yaml
 
 on:
   # we want pull requests so we can build(test) but not push to image registry
   push:
     branches:
       - 'main'
-    # only build when important files change
     paths:
-      - 'frontend/**'
+      - 'src/frontend/**'
       - '.github/workflows/call-docker-build-web.yaml'
   pull_request:
     branches:
       - 'main'
     # only build when important files change
     paths:
-      - 'frontend/**'
+      - 'src/frontend/**'
       - '.github/workflows/call-docker-build-web.yaml'
 
 jobs:
   call-docker-build:
 
     name: Web Call Docker Build
-
     uses: dockersamples/.github/.github/workflows/reusable-docker-build.yaml@main
 
     permissions:
